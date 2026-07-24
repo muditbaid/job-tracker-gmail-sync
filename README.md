@@ -48,6 +48,18 @@ In your Apps Script editor, navigate to **Project Settings** (the gear icon ⚙�
 3. Run `testGeminiBatchConnection` to verify your API key is working.
 4. Finally, run `createHourlyTrigger` to set the script to run automatically every hour in the background.
 
+### 5. Automate the Labeling (The Secret Sauce)
+To make this pipeline 100% automated, set up a Gmail filter to automatically route recruiting emails into your `Jobs_inbox` label.
+
+1. In Gmail, click the **Show search options** icon (the sliders in the search bar).
+2. In the **Includes the words** field, paste a string of common Applicant Tracking System (ATS) domains and keywords. For example:
+   `from:(@greenhouse.io OR @lever.co OR @workday.com OR @myworkdayjobs.com OR @ashbyhq.com) OR subject:("thank you for applying" OR "application received" OR "interview")`
+3. Click **Create filter**.
+4. Check the box for **Apply the label** and select `Jobs_inbox`.
+5. Click **Create filter**.
+
+Now, whenever you apply for a job, the ATS email will be automatically labeled, and the Apps Script will process it on the next hourly run without you ever lifting a finger!
+
 ---
 
 ## 🚀 How to Use It
