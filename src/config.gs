@@ -5,11 +5,11 @@ const CONFIG = {
   REVIEW_LABEL: 'Jobs_review',
   SEARCH_BATCH_SIZE: 40,
   GEMINI_BATCH_SIZE: 5,
-  MAX_BATCH_REQUESTS_PER_RUN: 4,
-  MIN_MS_BETWEEN_BATCH_REQUESTS: 30000,
-  MAX_REQUESTS_PER_DAY: 18,
-  GEMINI_MODEL: 'gemini-2.5-flash-lite',
-  GEMINI_URL: 'https://generativelanguage.googleapis.com/v1beta/interactions',
+  MAX_BATCH_REQUESTS_PER_RUN: 15,
+  MIN_MS_BETWEEN_BATCH_REQUESTS: 5000,
+  MAX_REQUESTS_PER_DAY: 450,
+  GEMINI_MODEL: 'gemini-3.5-flash-lite',
+  GEMINI_URL: 'https://generativelanguage.googleapis.com/v1beta/models',
   REQUEST_TIME_ZONE: 'America/Los_Angeles',
   MIN_CONFIDENCE_WITHOUT_REVIEW: 0.8,
   REQUIRED_HEADERS: [
@@ -28,4 +28,3 @@ const CONFIG = {
     'Rejected': 5
   }
 };
-

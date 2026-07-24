@@ -26,15 +26,11 @@ function incrementDailyRequestCount_() {
 }
 
 function extractGeminiOutputText_(json) {
-  if (json.output_text) return json.output_text;
-  for (const step of json.steps || []) {
-    for (const block of step.content || []) {
-      if (step.type === 'model_output' && block.type === 'text' && block.text) {
-        return block.text;
-      }
-    }
-  }
-  return '';
+  const candidates = json.candidates || [];
+  const parts = candidates[0] && candidates[0].content
+    ? candidates[0].content.parts || []
+    : [];
+  return parts.map(part => part.text || '').join('');
 }
 
 function shouldForceReview_(parsed) {
@@ -111,4 +107,3 @@ function chunkArray_(items, size) {
   for (let i = 0; i < items.length; i += size) chunks.push(items.slice(i, i + size));
   return chunks;
 }
-

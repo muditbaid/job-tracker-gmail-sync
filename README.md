@@ -46,10 +46,11 @@ The template contains all required columns:
 
 - Low-confidence results are written but flagged for review.
 - `Rejected` is terminal except that an existing `Offer` is preserved.
-- The Gemini Interactions endpoint is beta and may require maintenance if its response shape changes.
+- The project uses Gemini's `generateContent` endpoint with structured JSON output.
+- The included request limits are conservative defaults. Check the active limits for
+  your own API project in Google AI Studio before increasing them.
 - Never commit `.clasp.json`, API keys, or a live spreadsheet export.
 
 ## License
 
 MIT
-

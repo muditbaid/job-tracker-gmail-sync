@@ -3,25 +3,25 @@ function callGeminiBatchClassifier_(emailBatch) {
   if (!apiKey) throw new Error('Missing GEMINI_API_KEY in Script Properties.');
 
   const resultSchema = {
-    type: 'object',
+    type: 'OBJECT',
     properties: {
-      id: { type: 'string' },
-      is_job_related: { type: 'boolean' },
+      id: { type: 'STRING' },
+      is_job_related: { type: 'BOOLEAN' },
       email_type: {
-        type: 'string',
+        type: 'STRING',
         enum: ['Applied', 'OA / Assessment', 'Interview', 'Offer', 'Rejected', 'Ignore']
       },
-      raw_status: { type: ['string', 'null'] },
-      company: { type: ['string', 'null'] },
-      role: { type: ['string', 'null'] },
-      industry: { type: ['string', 'null'] },
-      location: { type: ['string', 'null'] },
-      job_url: { type: ['string', 'null'] },
-      hr_contact: { type: ['string', 'null'] },
-      contact_email: { type: ['string', 'null'] },
-      event_date: { type: ['string', 'null'] },
-      confidence: { type: 'number' },
-      needs_review: { type: 'boolean' }
+      raw_status: { type: 'STRING', nullable: true },
+      company: { type: 'STRING', nullable: true },
+      role: { type: 'STRING', nullable: true },
+      industry: { type: 'STRING', nullable: true },
+      location: { type: 'STRING', nullable: true },
+      job_url: { type: 'STRING', nullable: true },
+      hr_contact: { type: 'STRING', nullable: true },
+      contact_email: { type: 'STRING', nullable: true },
+      event_date: { type: 'STRING', nullable: true },
+      confidence: { type: 'NUMBER' },
+      needs_review: { type: 'BOOLEAN' }
     },
     required: [
       'id', 'is_job_related', 'email_type', 'company', 'role',
@@ -30,10 +30,9 @@ function callGeminiBatchClassifier_(emailBatch) {
     additionalProperties: false
   };
   const schema = {
-    type: 'object',
-    properties: { results: { type: 'array', items: resultSchema } },
-    required: ['results'],
-    additionalProperties: false
+    type: 'OBJECT',
+    properties: { results: { type: 'ARRAY', items: resultSchema } },
+    required: ['results']
   };
   const prompt = [
     'Classify Gmail messages for a job application tracker.',
@@ -47,15 +46,14 @@ function callGeminiBatchClassifier_(emailBatch) {
     `Emails:\n${JSON.stringify(emailBatch)}`
   ].join('\n');
   const payload = {
-    model: CONFIG.GEMINI_MODEL,
-    input: prompt,
-    response_format: {
-      type: 'text',
-      mime_type: 'application/json',
-      schema
+    contents: [{ parts: [{ text: prompt }] }],
+    generationConfig: {
+      responseMimeType: 'application/json',
+      responseSchema: schema
     }
   };
-  const response = UrlFetchApp.fetch(CONFIG.GEMINI_URL, {
+  const endpoint = `${CONFIG.GEMINI_URL}/${CONFIG.GEMINI_MODEL}:generateContent`;
+  const response = UrlFetchApp.fetch(endpoint, {
     method: 'post',
     contentType: 'application/json',
     headers: { 'x-goog-api-key': apiKey },
@@ -71,4 +69,3 @@ function callGeminiBatchClassifier_(emailBatch) {
   if (!outputText) throw new Error('Gemini response did not contain output text.');
   return JSON.parse(outputText).results || [];
 }
-

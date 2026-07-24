@@ -157,3 +157,17 @@ function chooseBetterStatus_(current, incoming) {
     (CONFIG.STATUS_ORDER[current] ?? -1) ? incoming : current;
 }
 
+function sortTrackerSheetByDate_(sheet, headers) {
+  const headerRow = headers.__HEADER_ROW__;
+  const lastRow = sheet.getLastRow();
+  if (lastRow <= headerRow + 1) return;
+  sheet.getRange(
+    headerRow + 1,
+    1,
+    lastRow - headerRow,
+    sheet.getLastColumn()
+  ).sort({
+    column: headers['Last Gmail Message Date'],
+    ascending: false
+  });
+}

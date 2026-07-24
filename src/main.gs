@@ -103,8 +103,8 @@ function runJobSync() {
         Utilities.sleep(CONFIG.MIN_MS_BETWEEN_BATCH_REQUESTS);
       }
     }
+    sortTrackerSheetByDate_(sheet, headerMap);
   } finally {
     lock.releaseLock();
   }
 }
-
