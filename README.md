@@ -18,7 +18,7 @@ The script sends email subjects, sender details, and up to 10,000 characters of 
 
 ## Setup
 
-1. Create a Google Sheet and import `template/tracker-template.csv`.
+1. Create a Google Sheet and import `tracker-template.csv`.
 2. Rename its tab to `Tracker`.
 3. Create a standalone Apps Script project and add the files under `src/`.
 4. Replace the generated manifest with `appsscript.json`.
